@@ -3,7 +3,7 @@
 let urlOfSocketConnection: string
 
 if(!process.env.NODE_ENV || process.env.NODE_ENV === 'development') urlOfSocketConnection = "http://localhost:8000" 
-else urlOfSocketConnection = "https://message-backend-app-production.up.railway.app/"
+else urlOfSocketConnection = "https://message-backend-app-production.up.railway.app"
 
 const BaseUrlOfApi: string =  urlOfSocketConnection + "/api/v1/"
 const urlOfSignUp: string = BaseUrlOfApi + "sign-up"
