@@ -12,6 +12,7 @@ import ChatRoomUserList from "./ChatRoomUserList"
 //TYPES
 import { UserInChannel, ChannelInfo } from '../../types/types'
 import { SxProps } from '@mui/system'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const ChatRoomStyle: SxProps = {
     display: "flex",
@@ -36,11 +37,14 @@ export function useChannel(){
 }
 
 let controller = new AbortController()
-const ChatRoom = (props: any): JSX.Element => {   
+const ChatRoom = (): JSX.Element => {   
     const userInChannelList = useArray<UserInChannel>([])
     const [channelInfo, setChannelInfo] = useState<ChannelInfo>()
     const [channelId, setChannelId] = useState<string|null>(null)
     const [userChannelInfo, setUserChannelInfo] = useState<UserInChannel|undefined>()
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate()
     const user = useUser()
     const userUpdate = useUserUpdate()
     controller = new AbortController()
@@ -54,7 +58,7 @@ const ChatRoom = (props: any): JSX.Element => {
             if(differentChannelThanCurrent){
                 userIsInDifferentChannel = true
                 redirectUrl = "/channel?channelId="+user.userChannels[i].id  
-                props.history.push(redirectUrl)
+                navigate(redirectUrl)
                 break
             }
         }
@@ -114,8 +118,7 @@ const ChatRoom = (props: any): JSX.Element => {
     }, [user.socket, channelId]);
 
     useEffect(() => {
-        let filter: {[key: string]: string} = parseParams(props.location.search)
-        let id: string =  filter["channelId"] as string || "1"
+        let id = searchParams.get("channelId")
 
         const didUserLeftRoom = channelId!==null && id!==channelId
         if(didUserLeftRoom && user.socket!==undefined ) user.socket.emit("leave-chatroom", channelId)
@@ -137,7 +140,7 @@ const ChatRoom = (props: any): JSX.Element => {
             .then(response => {                     
                 if("error" in response) {
                     let redirectUrl = user.userChannels[0] !== undefined ? "/channel?channelId="+user.userChannels[0].id : "/"
-                    props.history.push(redirectUrl)
+                    navigate(redirectUrl)
                     return
                 }
                 userInChannelList.set(response.channelMembers)
@@ -146,7 +149,7 @@ const ChatRoom = (props: any): JSX.Element => {
             })
             .catch(error=>{console.log(error)})
         // eslint-disable-next-line react-hooks/exhaustive-deps 
-    }, [props.location.search]);
+    }, [searchParams.get("channelId")]);
     
     useEffect(() => {
         if(userInChannelList.array.length!==0)
