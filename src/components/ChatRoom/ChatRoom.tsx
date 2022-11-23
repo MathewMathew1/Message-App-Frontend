@@ -43,7 +43,7 @@ const ChatRoom = (): JSX.Element => {
     const [channelId, setChannelId] = useState<string|null>(null)
     const [userChannelInfo, setUserChannelInfo] = useState<UserInChannel|undefined>()
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, _setSearchParams] = useSearchParams();
     const navigate = useNavigate()
     const user = useUser()
     const userUpdate = useUserUpdate()
@@ -101,16 +101,6 @@ const ChatRoom = (): JSX.Element => {
          }
          // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user.socket, userInChannelList, user.userInfo, user.userChannels, channelId]);
-
-    const parseParams = (params = "") => {
-        const rawParams = params.replace("?", "").split("&")
-        const extractedParams: {[key: string]: string} = {}
-        rawParams.forEach((item) => {
-          let modifiedItem: string[] = item.split("=")
-          extractedParams[modifiedItem[0]] = modifiedItem[1]
-        });
-        return extractedParams;
-    }
 
     useEffect(() => {
         if(user.socket!==undefined) user.socket.emit("join-chatroom", channelId)
