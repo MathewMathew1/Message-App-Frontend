@@ -32,6 +32,9 @@ const WrapperStyle: CSSProperties = {
     gap: "0.5rem"
 }
 
+const marginTop: CSSProperties = {
+    marginTop: "0.5rem"
+}
 
 const IconStyle: CSSProperties = {
     display: "flex",
@@ -230,24 +233,6 @@ const Authorization = ({showModal, setShowModal, setIsLoginModalOpen, isLoginMod
         cleanErrors()
     }
 
-    const changeModalText = () => {
-        if(isLoginModalOpen){
-            return(
-                <div className='font0-9rem'>if you dont have account sign up 
-                    <Link onClick={() => openDifferentModal()}>
-                        {' here'}
-                    </Link>  
-                </div>
-            )
-        }
-        return(
-            <div className='font0-9rem'>if you already have account login 
-                <Link onClick={() => openDifferentModal()}>
-                    {' here'}
-                </Link>  
-            </div>
-        )
-    }
 
     useEffect(() => {
         return () => {
@@ -303,8 +288,20 @@ const Authorization = ({showModal, setShowModal, setIsLoginModalOpen, isLoginMod
                             <div >
                                 <Button onClick={() => authorizeUser()}  variant="contained" endIcon={<LoginIcon />}>{isLoginModalOpen? "Login": "SignUp"}</Button>
                             </div>
-                            <div className='font0-9rem'> 
-                                {changeModalText()}
+                            <div style={marginTop} className='font0-9rem'> 
+                                {isLoginModalOpen?
+                                    <div className='font0-9rem'>if you dont have account sign up&nbsp;
+                                        <Link onClick={() => openDifferentModal()}>
+                                            {'here'}
+                                        </Link>  
+                                    </div>
+                                :
+                                    <div className='font0-9rem'>if you already have account login&nbsp;
+                                        <Link onClick={() => openDifferentModal()}>
+                                            {'here'}
+                                        </Link>  
+                                    </div>
+                                }
                             </div>
                         </div>
                 
