@@ -155,6 +155,8 @@ const Authorization = ({showModal, setShowModal, setIsLoginModalOpen, isLoginMod
             .then(response => {            
 
                 if(!response.error){
+                    setPassword("")
+                    setUsername("")
                     setIsLoginModalOpen(true)
                     const snackBarInfo = {message: "Sign up successfully", severity: "success"}
                     sessionStorage.setItem("snackbar", JSON.stringify(snackBarInfo))
