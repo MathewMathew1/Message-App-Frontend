@@ -43,6 +43,7 @@ const ChatRoom = (): JSX.Element => {
     const [channelId, setChannelId] = useState<string|null>(null)
     const [userChannelInfo, setUserChannelInfo] = useState<UserInChannel|undefined>()
 
+    /* eslint-disable no-unused-vars */
     const [searchParams, _setSearchParams] = useSearchParams();
     const navigate = useNavigate()
     const user = useUser()
