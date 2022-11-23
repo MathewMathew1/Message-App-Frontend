@@ -2,7 +2,6 @@
 import { Route, Redirect } from "react-router"
 import { useUser } from "../../UserContext"
 
-
 const PrivateRoute = ({component: Component,  ...rest}) => {
     const user = useUser()
     

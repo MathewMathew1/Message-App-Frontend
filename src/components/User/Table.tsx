@@ -7,9 +7,6 @@ import { urlOfInvitesSent, urlOfRespondingToInvite } from '../../apiRoutes';
 import useArray from '../../customHooks/useArray';
 import { useEffect } from 'react';
 
-
-
-
 const TableStyle: SxProps = {
     backgroundColor: "var(--background-color2)",
     padding: "1rem",

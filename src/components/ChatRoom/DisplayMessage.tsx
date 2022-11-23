@@ -206,7 +206,6 @@ const DisplayMessage = ({ index, style, data }: {index: number, style: any, data
         data.showBBCodeEditor("Edited-Message-Area")
     }
 
-    console.log(data.lastSeenMessageId.frontend === message.id)
     return(
         <Grid style={style}>
             <Grid sx={{padding: 0}} ref={handleRect}>
