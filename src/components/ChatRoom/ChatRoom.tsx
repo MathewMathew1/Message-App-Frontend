@@ -45,6 +45,7 @@ const ChatRoom = (): JSX.Element => {
 
     /* eslint-disable no-unused-vars */
     const [searchParams, _setSearchParams] = useSearchParams();
+    /* eslint-disable no-unused-vars */
     const navigate = useNavigate()
     const user = useUser()
     const userUpdate = useUserUpdate()
