@@ -72,7 +72,7 @@ const MessageBox = (): JSX.Element => {
     const [textAreaModified, setTextAreaModified] = useState<HTMLElement|null>(null)
     const [contextMenu, setContextMenu] = useState<MenuPosition>(null)
     const[userInContextMenu, setUserInContextMenu] = useState<UserInContextMenu|undefined>()
-
+   
     const user = useUser()
     const channelInfo = useChannel()
 
@@ -269,7 +269,6 @@ const MessageBox = (): JSX.Element => {
     }, [message, messageEdited])
 
     const getRowHeight = (index: number): number => {
-        console.log(rowHeights.current)
         return rowHeights.current[index] -3 || 82;
     }
     

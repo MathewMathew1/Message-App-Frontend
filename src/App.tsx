@@ -17,7 +17,6 @@ import { useState, useEffect } from 'react';
 import Sidebar from './components/User/Sidebar';
 import Box from '@material-ui/core/Box';
 import AboutSite from './components/MainPage/AboutSite';
-import { displayDates } from './helper';
 
 export const SNACKBAR_MESSAGES = {
   "Sign up success": { text:"Sign up successfully", severity: "success" as AlertColor},
@@ -43,7 +42,7 @@ function App() {
   useEffect(() => {
     let themeMode: string|null = localStorage.getItem("theme mode")
     if(themeMode === "dark" || themeMode === null ) document.body.classList.toggle('dark')
-    console.log(displayDates("2022-11-22T22:59:00.713Z"))     
+  
   }, []);
 
   return (
