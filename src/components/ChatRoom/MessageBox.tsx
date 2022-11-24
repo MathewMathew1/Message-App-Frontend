@@ -116,8 +116,8 @@ const MessageBox = (): JSX.Element => {
         }
 
         const result = listOfAllMessages.array.find(element => {
-            const isLastMessageSeenByUserDefined = channelInfo.userChannelInfo?.last_message_seen_id!==null && channelInfo.userChannelInfo?.last_message_seen_id!==undefined
-            if(!isLastMessageSeenByUserDefined)  return false
+            const isLastMessageSeenByUserUnDefined = channelInfo.userChannelInfo?.last_message_seen_id===null || channelInfo.userChannelInfo?.last_message_seen_id===undefined
+            if(isLastMessageSeenByUserUnDefined)  return false
             return parseInt(element.id) > channelInfo.userChannelInfo?.last_message_seen_id!
             
             

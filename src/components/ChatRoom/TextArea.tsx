@@ -48,9 +48,11 @@ const TextArea = ({clickedDescendantOfToolbar, showBBCodeEditor, setMessage, mes
     const sendMessage = (): void => {
         if(message==="") return
         const { signal } = channelInfo.controller
+        
         const body = {
             message: message,
         }
+        setMessage("")
   
         fetch(urlOfPostMessage+channelInfo.channelId,{
             method: "POST",
