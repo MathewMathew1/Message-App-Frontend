@@ -9,7 +9,7 @@ import { EmojiReaction, Message } from "../../types/types"
 import { useUser } from "../../UserContext"
 import { urlOfDeleteMessage, urlOfEmojiReaction } from "../../apiRoutes"
 import { useChannel } from "./ChatRoom"
-import { useCallback, useRef, useState, useLayoutEffect} from "react"
+import { useCallback, useRef, useState, useLayoutEffect, useEffect} from "react"
 import { displayDates } from "../../helper"
 //TYPES
 import {deleteModalInfo} from "./MessageBox"
@@ -95,21 +95,22 @@ const DisplayMessage = ({ index, style, data }: {index: number, style: any, data
         if (node) {
             let height = node.clientHeight
                 
-            if(a) return
             data.setRowHeight(index,  height);
         }
     }
     
     useLayoutEffect( () => {
 
-        if(message.id===data.messageEditedId) changeHeight({a: false})
+        changeHeight({a: false})
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.messageEditedId, data.messageEdited, data.listOfAllMessages.length]);
+
+
 
     useLayoutEffect( () => {
         changeHeight({})
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [node?.clientHeight,newMessageBadge.current.clientHeight]);
+    }, [node?.clientHeight,newMessageBadge.current.clientHeight, message.emojis]);
     
     let margin = {
         marginTop: extraMargin
@@ -165,16 +166,6 @@ const DisplayMessage = ({ index, style, data }: {index: number, style: any, data
             e.preventDefault()
             editMessage()
         }
-    }
-
-    const emojiReactionShown = (keyName: EmojiReaction, message: Message, i: number): JSX.Element =>{
-        const didCurrentUserReactedWithEmoji: boolean =  message.emojis[keyName].some(e => e.userId.toString() === user.userInfo?.id)
-       
-        return(
-            <ListItemText onClick={()=>sendEmojiReaction(didCurrentUserReactedWithEmoji? "DELETE": "POST", message.id, keyName)} key={`EmojiReaction${i}`} sx={EmojiBox} >
-                {keyName} {message.emojis[keyName].length}
-            </ListItemText>
-        )
     }
 
     const editMessage = (): void => {
@@ -267,11 +258,16 @@ const DisplayMessage = ({ index, style, data }: {index: number, style: any, data
                                 }
                             </Grid>
                             <Grid item xs={12}>
-                                {Object.keys(message.emojis).map((keyName: any, i: number) => (
-                                    <span key={`emoji${i}`}>
-                                        {emojiReactionShown(keyName, message, i)}
-                                    </span>
-                                ))}
+                                {Object.keys(message.emojis).map((keyName: any, i: number) => {                                      
+                                    const didCurrentUserReactedWithEmoji: boolean =  message.emojis[keyName].some(e => e.userId.toString() === user.userInfo?.id)
+                                    return(
+                                        <span key={`emoji${i}`}>
+                                            <ListItemText onClick={()=>sendEmojiReaction(didCurrentUserReactedWithEmoji? "DELETE": "POST", message.id, keyName)} key={`EmojiReaction${i}`} sx={EmojiBox} >
+                                                {keyName} {message.emojis[keyName].length}
+                                            </ListItemText>
+                                        </span>
+                                    )                 
+                                })}
                             </Grid>    
                         </Grid>
                         {(isHoverBarVisible || data.messageHoveredId===message.id) && data.messageEditedId!==message.id? <HoverToolBar sendEmojiReaction={sendEmojiReaction} message={message} 
