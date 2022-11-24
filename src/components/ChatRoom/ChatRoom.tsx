@@ -13,6 +13,7 @@ import ChatRoomUserList from "./ChatRoomUserList"
 import { UserInChannel, ChannelInfo } from '../../types/types'
 import { SxProps } from '@mui/system'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useUpdateSnackbar } from '../../SnackBarContext'
 
 const ChatRoomStyle: SxProps = {
     display: "flex",
@@ -47,6 +48,7 @@ const ChatRoom = (): JSX.Element => {
     const [searchParams, _setSearchParams] = useSearchParams();
 
     const navigate = useNavigate()
+    const updateSnackbar = useUpdateSnackbar()
     const user = useUser()
     const userUpdate = useUserUpdate()
     controller = new AbortController()
@@ -64,7 +66,7 @@ const ChatRoom = (): JSX.Element => {
                 break
             }
         }
-        if(!userIsInDifferentChannel) window.history.replaceState(null, "Oliphant", "/")
+        if(!userIsInDifferentChannel) navigate("/")
     }
 
     useEffect(() => {
@@ -88,17 +90,26 @@ const ChatRoom = (): JSX.Element => {
         user.socket.on('user-removed', ({userId}:{userId: number}) => {
             userInChannelList.removeByKey("id", userId.toString())
             if(userId.toString() === user.userInfo?.id){
+                updateSnackbar.addSnackBar({snackbarText: `You have been removed from ${channelInfo?.name}.`, severity: "error"})
                 if(channelId!==null) userUpdate.removeChannel(parseInt(channelId))
                 changeUrl()
             }
         })
+        user.socket.on('user-allowance-changed', ({userId, userInviteAbility}:{userId: number, userInviteAbility: boolean}) => {
+            userInChannelList.updateObjectByKey("id", userId.toString(), [{field: "can_invite", fieldValue: userInviteAbility}])
+            if(userId.toString() === user.userInfo?.id && userChannelInfo!==undefined){
+                setUserChannelInfo({...userChannelInfo, can_invite: userInviteAbility})
+            }
 
+        })
+        
         return () => {
             if(user.socket !== undefined) {
                 user.socket.off('user-joined-channel')
                 user.socket.off('user-left-channel')
                 user.socket.off('channel_and_room_deleted')
                 user.socket.off('user-removed')
+                user.socket.off('user-allowance-changed')
             }
          }
          // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -147,7 +158,7 @@ const ChatRoom = (): JSX.Element => {
         if(userInChannelList.array.length!==0)
             setUserChannelInfo(userInChannelList.array.find((userM:UserInChannel)=>userM.id===user.userInfo?.id))
         // eslint-disable-next-line react-hooks/exhaustive-deps    
-    }, [user.userInfo?.id, userInChannelList.array, setUserChannelInfo])
+    }, [user.userInfo?.id, userInChannelList.array])
 
     useEffect(() => {
         return () => {
