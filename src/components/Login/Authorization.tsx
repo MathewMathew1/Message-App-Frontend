@@ -12,6 +12,7 @@ import { urlOfLogin, urlOfSignUp } from '../../apiRoutes';
 //TYPES
 import { SxProps } from '@mui/system';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
+import { useUpdateSnackbar } from '../../SnackBarContext';
 
 
 const inputStyle: SxProps = {
@@ -100,7 +101,8 @@ const Authorization = ({showModal, setShowModal, setIsLoginModalOpen, isLoginMod
     const [username, setUsername] = useState("")
 
     const [formErrors, dispatchFormErrors] = useReducer(formErrorsReducer, {passwordError: "", usernameError: "", passwordError2: "" })
-
+    
+    const updateSnackbar = useUpdateSnackbar()
     
     const authorizeUser = (): void =>{
         cleanErrors()
@@ -158,8 +160,7 @@ const Authorization = ({showModal, setShowModal, setIsLoginModalOpen, isLoginMod
                     setPassword("")
                     setUsername("")
                     setIsLoginModalOpen(true)
-                    const snackBarInfo = {message: "Sign up successfully", severity: "success"}
-                    sessionStorage.setItem("snackbar", JSON.stringify(snackBarInfo))
+                    updateSnackbar.addSnackBar({snackbarText: "Sign up successfully", severity:"success"})
                     return
                 }
                 if(response.error.includes("Username")){
