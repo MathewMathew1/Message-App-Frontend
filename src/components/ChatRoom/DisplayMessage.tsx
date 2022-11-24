@@ -9,7 +9,7 @@ import { EmojiReaction, Message } from "../../types/types"
 import { useUser } from "../../UserContext"
 import { urlOfDeleteMessage, urlOfEmojiReaction } from "../../apiRoutes"
 import { useChannel } from "./ChatRoom"
-import { useCallback, useRef, useState, useLayoutEffect, useEffect} from "react"
+import { useCallback, useRef, useState, useLayoutEffect} from "react"
 import { displayDates } from "../../helper"
 //TYPES
 import {deleteModalInfo} from "./MessageBox"
