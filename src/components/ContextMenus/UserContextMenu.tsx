@@ -1,6 +1,6 @@
 import { Menu, MenuItem } from "@mui/material"
 import { copyToClipboard } from "../../helper"
-import { MenuStyle, WarningLabelStyle} from "./ContextMenusStyle"
+import { MenuStyle, WarningLabelStyle, SuccessLabelStyle} from "./ContextMenusStyle"
 //HELPERS
 import { urlOfRemovingUser, urlOfDeleteFriendShip, urlOfSendingFriendInvite } from "../../apiRoutes"
 import { useUpdateSnackbar } from "../../SnackBarContext"
@@ -132,7 +132,7 @@ const UserContextMenu = ({handleClose, contextMenu, user}: {
           {user.sameUserAsCurrentlyLogged?  
             null
             :
-            <MenuItem onClick={()=>inviteFriend(parseInt(user.id))} sx={WarningLabelStyle}>Invite to friend</MenuItem>
+            <MenuItem onClick={()=>inviteFriend(parseInt(user.id))} sx={SuccessLabelStyle}>Friend Invite</MenuItem>
           }
         </div>
       }
