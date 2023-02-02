@@ -73,6 +73,7 @@ const Navbar = ({setShowModal, showModal}: {setShowModal: Function, showModal: b
         return () => {
             controller.abort()
         }    
+        // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, []);
 
     return(
