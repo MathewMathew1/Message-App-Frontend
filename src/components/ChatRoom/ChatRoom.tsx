@@ -37,7 +37,7 @@ export function useChannel(){
     return useContext(ChannelContext)
 }
 
-let controller = new AbortController()
+
 const ChatRoom = (): JSX.Element => {   
     const userInChannelList = useArray<UserInChannel>([])
     const [channelInfo, setChannelInfo] = useState<ChannelInfo>()
@@ -46,6 +46,7 @@ const ChatRoom = (): JSX.Element => {
 
     // eslint-disable-next-line
     const [searchParams, _setSearchParams] = useSearchParams();
+    let controller = new AbortController()
 
     const navigate = useNavigate()
     const updateSnackbar = useUpdateSnackbar()
