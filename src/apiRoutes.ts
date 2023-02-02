@@ -34,11 +34,11 @@ const urlOfFriendInvitesReceived: string = BaseUrlOfApi + "/user/friend-invites"
 const urlOfRemovingUser: string = BaseUrlOfApi + "/channel/removeUser/id/"
 const urlOfLeavingChannel: string = BaseUrlOfApi + "/channel/leave/id/"
 const urlOfDeletingChannel: string = BaseUrlOfApi + "/channel/delete/id/"
-
+const urlOfHealthCheck: string = urlOfSocketConnection + "/healthcheck"
 
 export {BaseUrlOfApi, urlOfLogin, urlOfPostMessage, urlOfSignUp, urlOfUserData, urlOfUserInvites, urlOfMarkingInviteAsSeen, 
         urlOfRespondingToInvite, urlOfUserChannels, urlOfMessagesChannel, urlOfSocketConnection, urlOfChannelData, urlOfDeleteMessage
         ,urlOfEmojiReaction, urlOfSendInvite, urlOfCreateChannel, urlOfMarkingLastMessageSeenInChannel, ulrOfChangingUserPrivileges,
         urlOfChangePassword, urlOfInvitesSent, urlOfSendingFriendInvite, urlOfMarkingFriendInviteAsSeen, urlOfDeleteFriendShip,
         urlOfListOfFriends, urlOfFriendInvitesReceived, urlOfFriendInvitesSend, urlOfRespondingToFriendInvite, urlOfRemovingUser, urlOfLeavingChannel,
-        urlOfDeletingChannel}
+        urlOfDeletingChannel, urlOfHealthCheck}

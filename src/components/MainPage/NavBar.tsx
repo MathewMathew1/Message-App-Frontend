@@ -2,7 +2,7 @@ import { AppBar, Box, Toolbar, Typography, Button,IconButton, Badge } from '@mui
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 //HELPERS
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from "../../UserContext"
 //COMPONENTS
 import InvitesList from '../User/Invites';
@@ -10,13 +10,16 @@ import Account from '../User/Account';
 //types
 import { InviteEnum } from '../../types/types';
 import { Link } from 'react-router-dom';
+import { urlOfHealthCheck } from '../../apiRoutes';
+import { useUpdateSnackbar } from '../../SnackBarContext';
 
 const Navbar = ({setShowModal, showModal}: {setShowModal: Function, showModal: boolean}): JSX.Element => {
-    
     const [showInvitesList, setShowInvitesList] = useState(false)
     const [inviteTypeList, setInviteTypeList] = useState<InviteEnum>('friend' as InviteEnum)
     const [anchorForInviteList, setAnchorForInviteList] = useState<Element>()
     const user = useUser()
+    const updateSnackbar = useUpdateSnackbar()
+    let controller = new AbortController()
 
     const invitesNotSeen = (): number => {
 
@@ -47,6 +50,30 @@ const Navbar = ({setShowModal, showModal}: {setShowModal: Function, showModal: b
         setInviteTypeList(inviteType)
         setAnchorForInviteList(e.currentTarget)
     }
+
+    useEffect(() => {
+        const { signal } = controller
+        fetch(urlOfHealthCheck,{
+            method: "GET",
+            signal,
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': "Bearer " + localStorage.getItem("token") || ""
+            }})
+            .then(response => {
+                if (!response.ok) {
+                    updateSnackbar.addSnackBar({severity: "error", snackbarText: "Server is currently unavailable, server works only 21 first days of month(free plan) or is down for some other reason."})
+                }
+            })
+            .catch(error=>{
+                updateSnackbar.addSnackBar({severity: "error", snackbarText: "Server is currently unavailable, server works only 21 first days of month(free plan) or is down for some other reason."})
+                console.log(error)
+            })
+        
+        return () => {
+            controller.abort()
+        }    
+    }, []);
 
     return(
         <div>

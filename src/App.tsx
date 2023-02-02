@@ -26,10 +26,7 @@ export const SNACKBAR_MESSAGES = {
 }
 
 
-
 function App() {
-  
-
   const [showModal, setShowModal] = useState(false)
   const [currentModalOpenIsLogin, setCurrentModalOpenIsLogin] = useState(false)
 
