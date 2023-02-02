@@ -235,6 +235,7 @@ const ChatRoomUserList = (): JSX.Element => {
                   {...params}
                   onKeyDown={(e)=>handleKeypress(e)}
                   onKeyPress={((e)=>validateNumberInInput(e))}
+                  onChange={(e)=>setInvitedId(e.target.value)}
                   spellCheck="false" 
                   placeholder="Invite user by id"
                   sx={InviteInput}/>

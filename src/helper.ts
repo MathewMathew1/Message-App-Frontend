@@ -66,12 +66,13 @@ const validateNumberInInput = (event: React.KeyboardEvent<HTMLDivElement>) => {
       key = theEvent.keyCode || theEvent.which;
       key = String.fromCharCode(key);
   }
- 
   let regex = /[0-9]|\./;
   if( !regex.test(key) ) {
+
     theEvent["returnValue"] = false;
     if(theEvent.preventDefault) theEvent.preventDefault();
   }
+
 } 
 
 const copyToClipboard =(text: string) => {
