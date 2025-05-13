@@ -62,11 +62,11 @@ const Navbar = ({setShowModal, showModal}: {setShowModal: Function, showModal: b
             }})
             .then(response => {
                 if (!response.ok) {
-                    updateSnackbar.addSnackBar({severity: "error", snackbarText: "Server is currently unavailable, server works only 21 first days of month(free plan) or is down for some other reason."})
+                    updateSnackbar.addSnackBar({severity: "error", snackbarText: "Server is currently down."})
                 }
             })
             .catch(error=>{
-                updateSnackbar.addSnackBar({severity: "error", snackbarText: "Server is currently unavailable, server works only 21 first days of month(free plan) or is down for some other reason."})
+                updateSnackbar.addSnackBar({severity: "error", snackbarText: "Server is currently down."})
                 console.log(error)
             })
         
